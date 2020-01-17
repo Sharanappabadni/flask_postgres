@@ -1,0 +1,7 @@
+flask
+Flask-Script
+flask_sqlalchemy
+bson
+flask_pymongo
+sqlalchemy
+psycopg2
