@@ -13,11 +13,12 @@ engine = create_engine(DATABASE_URI)
 
 Session = sessionmaker(bind=engine)
 
+
 def create_app():
     app = Flask(__name__)
-    Base.metadata.create_all(engine)
 
     return app
+
 
 app = create_app()
 db = Session()

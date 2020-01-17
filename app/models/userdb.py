@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date
 from app import app, Base
 
+
 class User(Base):
 
     __tablename__ = "user"
@@ -10,3 +11,10 @@ class User(Base):
     email = Column(String)
     phone = Column(Integer)
     createdon = Column(Date)
+
+    def __init__(self, name, email, phone, createdon):
+        super().__init__(self)
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.createdon = createdon

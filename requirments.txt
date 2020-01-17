@@ -4,4 +4,4 @@ flask_sqlalchemy
 bson
 flask_pymongo
 sqlalchemy
-psycopg2
+psycopg2-binary
