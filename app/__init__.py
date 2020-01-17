@@ -9,20 +9,21 @@ Base = declarative_base()
 
 
 DATABASE_URI = config.DATABASE_URI
-engine = create_engine(DATABASE_URI)
+engine = create_engine(DATABASE_URI, echo=True)
 
 Session = sessionmaker(bind=engine)
+db = Session()
 
 
 def create_app():
     app = Flask(__name__)
+    Base.metadata.create_all(engine)
+    app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URI
 
     return app
 
 
 app = create_app()
-db = Session()
-
 __import__('app.models')
 __import__('app.api')
 
