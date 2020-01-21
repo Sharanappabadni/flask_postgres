@@ -1,9 +1,9 @@
 import os
 
-user = 'sharanbadni'
-password = '1234@Test'
+user = 'postgres'
+password = 'Test@1234'
 host = 'localhost'
 port = 5432
-database = 'guru99'
+database = 'users'
 
 DATABASE_URI = f'postgresql://{user}:{password}@{host}:{port}/{database}'
