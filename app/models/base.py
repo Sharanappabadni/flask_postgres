@@ -18,5 +18,5 @@ class BaseModel(Base):
     created_on = Column(
         Date,
         nullable=False,
-        default=datetime.datetime.now
+        default=datetime.datetime.now()
     )

@@ -1,18 +1,24 @@
 from flask.views import MethodView
 from flask import request, jsonify
-from app import db
-from app.models import UserDB
+from app import db,Session, engine
+from app.models import UserDB, IdTypeDB
 from kanpai import Kanpai
+from sqlalchemy import inspect
+import uuid
 
-class User(MethodView):
+session = Session()
 
-    def get(self):
-        return jsonify({"name": "Sharan"})
+class UserView(MethodView):
 
-    def post(self):
+    def get(self, *args, **kwargs):
+        q = session.query(UserDB.username, UserDB.email).all()
+        print(q)
+        return '''<h1>The language value is: {}</h1>'''.format(q)
+
+    def post(self, *args, **kwargs):
 
         schema = Kanpai.Object({
-            "name" : ( Kanpai . String ( error = 'User first name must be string.' ) 
+            "username" : ( Kanpai . String ( error = 'User first name must be string.' ) 
                        . trim () 
                        . required ( error = 'Please provide user first name.' ) 
                        . max ( 32 ,  error = 'Maximum allowed length is 32' )),
@@ -25,7 +31,12 @@ class User(MethodView):
             "phone": ( Kanpai . String ( error = 'User phone number must be string.' ) 
                        . trim () 
                        . required ( error = 'Please provide user phone number.' ) 
-                       . max ( 13 ,  error = 'Maximum allowed length is 13' ))
+                       . max ( 13 ,  error = 'Maximum allowed length is 13' )),
+            "gender": (Kanpai.String(). trim () ),
+            "firstname": Kanpai . String ( error = 'User phone number must be string.' ),
+            "surename": Kanpai . String ( error = 'User phone number must be string.' ),
+            "DOB": (Kanpai.String(). trim () ),
+            "idname": Kanpai.String(error="It's not required")
         })
 
         data = request.get_json()
@@ -37,10 +48,16 @@ class User(MethodView):
                 "errors" : validation_result.get("error")
             })
         if data:
+            idtypeid = session.query(IdTypeDB).filter_by(name=data['idname']).first()
             user = UserDB(
-                name=data['name'],
+                username=data['username'],
                 email=data['email'] if data['email'] else 'sharan@gmail.com',
-                phone=data['phone']
+                phone=data['phone'],
+                gender=data['gender'],
+                firstname=data['firstname'],
+                surename=data['surename'],
+                DOB=data['DOB'],
+                idnumber=idtypeid.id
             )
             db.add(user)
             db.commit()
