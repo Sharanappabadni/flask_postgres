@@ -10,5 +10,4 @@ class IdTypeDB(BaseModel):
     idnumber = Column(String)
 
 Base.metadata.create_all(engine)
-Base.metadata.create_all(engine)
 
